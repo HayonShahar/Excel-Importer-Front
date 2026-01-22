@@ -8,7 +8,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState("login"); // login, register, home
   const [userEmail, setUserEmail] = useState("");
 
-  // const API = "http://localhost:5185";
+  const API = "http://localhost:5185";
 
       // Register handler
   const handleRegister = async (email, password) => {
@@ -23,33 +23,14 @@ function App() {
   // Login handler
   const handleLogin = async (email, password) => {
     try {
-      // שולח POST ל-Backend
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
-        { email, password },
-        { withCredentials: true } // אם אתה עדיין רוצה קוקיז, אפשר להשאיר
-      );
-  
-      // response מכיל את ה-token ואת האימייל
-      const { token, email: userEmailFromServer, message } = res.data;
-  
-      // שמירת הטוקן ב-localStorage (או sessionStorage אם רוצים)
-      localStorage.setItem("token", token);
-  
-      // מעדכן state של האימייל
-      setUserEmail(userEmailFromServer);
-  
-      // עוברים לדף הבית
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password }, { withCredentials: true });
+      setUserEmail(email);
       setCurrentPage("home");
-  
-      // מחזיר הודעה להצלחה
-      return { success: true, message };
-  
+      return { success: true, message: "התחברת בהצלחה!" };
     } catch (err) {
       return { success: false, message: "ההתחברות נכשלה. בדוק את הפרטים" };
     }
   };
-  
 
   // Logout handler
   const handleLogout = () => {
@@ -67,7 +48,7 @@ function App() {
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/excel/upload`, formData, {
         withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" }
       });
 
       // Parse JSON data

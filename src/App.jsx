@@ -8,12 +8,12 @@ function App() {
   const [currentPage, setCurrentPage] = useState("login"); // login, register, home
   const [userEmail, setUserEmail] = useState("");
 
-  const API = "http://localhost:5185";
+  // const API = "http://localhost:5185";
 
-  // Register handler
+      // Register handler
   const handleRegister = async (email, password) => {
     try {
-      await axios.post(`${API}/api/auth/register`, { email, password });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, { email, password });
       return { success: true, message: "נרשמת בהצלחה! עבור להתחברות" };
     } catch (err) {
       return { success: false, message: "ההרשמה נכשלה. נסה שוב" };
@@ -23,7 +23,7 @@ function App() {
   // Login handler
   const handleLogin = async (email, password) => {
     try {
-      await axios.post(`${API}/api/auth/login`, { email, password }, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password }, { withCredentials: true });
       setUserEmail(email);
       setCurrentPage("home");
       return { success: true, message: "התחברת בהצלחה!" };
@@ -46,7 +46,7 @@ function App() {
     formData.append("FilterValue", value);
 
     try {
-      const res = await axios.post(`${API}/api/excel/upload`, formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/excel/upload`, formData, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" }
       });

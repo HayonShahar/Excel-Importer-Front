@@ -11,15 +11,16 @@ function Login({ onLogin, onSwitchToRegister }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+  
     const result = await onLogin(email, password);
-    
+  
+    // כאן מנהלים את ההודעה לפי מה שהגיע מהשרת
     if (result.success) {
       setMessage({ type: "success", text: result.message });
     } else {
       setMessage({ type: "error", text: result.message });
     }
-    
+  
     setLoading(false);
   };
 

@@ -23,14 +23,33 @@ function App() {
   // Login handler
   const handleLogin = async (email, password) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password }, { withCredentials: true });
-      setUserEmail(email);
+      // שולח POST ל-Backend
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        { email, password },
+        { withCredentials: true } // אם אתה עדיין רוצה קוקיז, אפשר להשאיר
+      );
+  
+      // response מכיל את ה-token ואת האימייל
+      const { token, email: userEmailFromServer, message } = res.data;
+  
+      // שמירת הטוקן ב-localStorage (או sessionStorage אם רוצים)
+      localStorage.setItem("token", token);
+  
+      // מעדכן state של האימייל
+      setUserEmail(userEmailFromServer);
+  
+      // עוברים לדף הבית
       setCurrentPage("home");
-      return { success: true, message: "התחברת בהצלחה!" };
+  
+      // מחזיר הודעה להצלחה
+      return { success: true, message };
+  
     } catch (err) {
       return { success: false, message: "ההתחברות נכשלה. בדוק את הפרטים" };
     }
   };
+  
 
   // Logout handler
   const handleLogout = () => {
@@ -48,7 +67,7 @@ function App() {
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/excel/upload`, formData, {
         withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" }
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       // Parse JSON data

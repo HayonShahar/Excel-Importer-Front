@@ -25,8 +25,9 @@ function Register({ onRegister, onSwitchToLogin }) {
   };
 
   return (
-    <div className="app-container">
+    <div className="auth-page">
       <div className="auth-card">
+        <div className="auth-brand">מערכת ניהול אקסל</div>
         <h1>הרשמה</h1>
         <p className="subtitle">צור חשבון חדש</p>
         

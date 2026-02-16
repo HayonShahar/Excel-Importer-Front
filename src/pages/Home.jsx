@@ -1,4 +1,4 @@
-import DashboardLayout, { IconGear, IconFilter, IconGrid } from "../components/DashboardLayout";
+import DashboardLayout, { IconGear, IconHistory, IconFilter, IconGrid } from "../components/DashboardLayout";
 
 function Home({ userEmail, onLogout, onNavigate }) {
   return (

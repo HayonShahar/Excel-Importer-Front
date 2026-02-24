@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/Home.css";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 const IconGear = ({ size = 24 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -94,6 +95,7 @@ export default function DashboardLayout({ userEmail, onLogout, onNavigate, activ
             </button>
           </div>
             <div className="sidebar-footer">
+            <ThemeToggle variant="sidebar" />
             <div className="sidebar-user">
               <div className="user-avatar">{displayName.charAt(0).toUpperCase()}</div>
               <span className="user-name">{displayName}</span>

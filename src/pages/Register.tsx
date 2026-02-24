@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import "../styles/Auth.css";
+import AuthShell from "../components/AuthShell";
 
 function Register({ onRegister, onSwitchToLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: "", text: "" });
+  const [message, setMessage] = useState({ isSuccess: false, text: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,41 +16,42 @@ function Register({ onRegister, onSwitchToLogin }) {
     const result = await onRegister(email, password);
     
     if (result.success) {
-      setMessage({ type: "success", text: result.message });
-      setTimeout(() => onSwitchToLogin(), 2000);
+      setMessage({ isSuccess: true, text: result.message });
+      setTimeout(() => onSwitchToLogin(), 1200);
     } else {
-      setMessage({ type: "error", text: result.message });
+      setMessage({ isSuccess: false, text: result.message });
     }
     
     setLoading(false);
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-brand">מערכת ניהול אקסל</div>
-        <h1>הרשמה</h1>
-        <p className="subtitle">צור חשבון חדש</p>
-        
+    <AuthShell
+      variant="register"
+      withImage
+      title="הרשמה"
+      subtitle="צור חשבון חדש"
+      message={message}
+      form={
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>אימייל</label>
-            <input 
+            <input
               type="email"
               placeholder="example@email.com"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label>סיסמה</label>
-            <input 
+            <input
               type="password"
               placeholder="••••••••"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
@@ -59,18 +61,13 @@ function Register({ onRegister, onSwitchToLogin }) {
             {loading && <span className="spinner"></span>}
           </button>
         </form>
-
+      }
+      footer={
         <div className="auth-switch">
           כבר יש לך חשבון? <button onClick={onSwitchToLogin}>התחבר</button>
         </div>
-
-        {message.text && (
-          <div className={`${message.type}-message`}>
-            {message.text}
-          </div>
-        )}
-      </div>
-    </div>
+      }
+    />
   );
 }
 

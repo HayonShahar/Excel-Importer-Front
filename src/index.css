@@ -1,11 +1,47 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  direction: rtl;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Theme tokens (Light) */
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+  --border: #e5e7eb;
+  --border-2: #eef2f7;
+
+  --primary: #667eea;
+  --primary-2: #764ba2;
+  --link: #2563eb;
+
+  --danger: #dc2626;
+  --danger-2: #b91c1c;
+  --success: #16a34a;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 18px 45px rgba(0, 0, 0, 0.18);
+  --ring: 0 0 0 3px rgba(102, 126, 234, 0.18);
+
+  /* Form controls */
+  --control-height: 46px;
+  --control-radius: 12px;
+  --control-padding-x: 14px;
+  --control-border-width: 2px;
+
+  /* Dashboard */
+  --sidebar-bg: #2d3748;
+  --sidebar-fg: rgba(255, 255, 255, 0.92);
+  --sidebar-fg-muted: rgba(255, 255, 255, 0.72);
+  --sidebar-hover: rgba(255, 255, 255, 0.08);
+  --sidebar-active: #1e3a5f;
+
+  color-scheme: light;
+  color: var(--text);
+  background-color: var(--bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,56 +49,179 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+:root[data-theme="dark"] {
+  /* Theme tokens (Dark) */
+  --bg: #0b1220;
+  --surface: #0f172a;
+  --surface-2: #111c33;
+  --text: rgba(255, 255, 255, 0.92);
+  --text-muted: rgba(255, 255, 255, 0.72);
+  --text-subtle: rgba(255, 255, 255, 0.60);
+  --border: rgba(255, 255, 255, 0.10);
+  --border-2: rgba(255, 255, 255, 0.08);
+
+  --primary: #8b9bff;
+  --primary-2: #b48cff;
+  --link: #93c5fd;
+
+  --danger: #f87171;
+  --danger-2: #ef4444;
+  --success: #4ade80;
+
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 22px 55px rgba(0, 0, 0, 0.45);
+  --ring: 0 0 0 3px rgba(147, 197, 253, 0.22);
+
+  --sidebar-bg: #0b1220;
+  --sidebar-fg: rgba(255, 255, 255, 0.92);
+  --sidebar-fg-muted: rgba(255, 255, 255, 0.68);
+  --sidebar-hover: rgba(255, 255, 255, 0.08);
+  --sidebar-active: rgba(59, 130, 246, 0.22);
+
+  color-scheme: dark;
 }
-a:hover {
-  color: #535bf2;
+
+html,
+body {
+  height: 100%;
 }
 
 body {
   margin: 0;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  justify-content: center;
+  background: var(--bg);
+  color: var(--text);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  font-weight: 600;
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+::selection {
+  background: rgba(102, 126, 234, 0.25);
+}
+
+:root[data-theme="dark"] ::selection {
+  background: rgba(147, 197, 253, 0.28);
+}
+
+/* Theme toggle (global) */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+}
+
+.theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.theme-toggle__icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: color-mix(in srgb, var(--primary) 80%, var(--text));
+}
+
+.theme-toggle__text {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.theme-toggle--auth {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  direction: ltr;
+  z-index: 1000;
+}
+
+.theme-toggle--sidebar {
+  width: 100%;
+  justify-content: center;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+:root[data-theme="dark"] .theme-toggle--sidebar {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.theme-toggle--sidebar .theme-toggle__icon {
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Global form controls (consistent size across the app) */
+input:not([type="file"]),
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: var(--control-border-width) solid var(--border);
+  border-radius: var(--control-radius);
+  padding: 0 var(--control-padding-x);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+input:not([type="file"]),
+select {
+  height: var(--control-height);
+}
+
+textarea {
+  min-height: calc(var(--control-height) * 2);
+  padding: 12px var(--control-padding-x);
+  resize: vertical;
+}
+
+input:not([type="file"])::placeholder,
+textarea::placeholder {
+  color: var(--text-subtle);
+}
+
+input:not([type="file"]):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--ring);
+}
+
+input:not([type="file"]):disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  background: color-mix(in srgb, var(--surface) 85%, var(--bg));
 }

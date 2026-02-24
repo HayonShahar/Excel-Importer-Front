@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import ExcelDataTable from "../../components/ExcelDataTable";
 import "../../styles/ExcelImport.css";
@@ -8,6 +8,7 @@ export const ExportToList = ({ userEmail, onLogout, onNavigate, onExportToList }
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [data, setData] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files?.[0];
@@ -42,6 +43,7 @@ export const ExportToList = ({ userEmail, onLogout, onNavigate, onExportToList }
     setFile(null);
     setData(null);
     setMessage({ type: "", text: "" });
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
@@ -63,6 +65,10 @@ export const ExportToList = ({ userEmail, onLogout, onNavigate, onExportToList }
               id="export-file-upload"
               type="file"
               accept=".xlsx,.xls"
+              ref={fileInputRef}
+              onClick={(e) => {
+                e.currentTarget.value = "";
+              }}
               onChange={handleFileChange}
               disabled={loading}
             />

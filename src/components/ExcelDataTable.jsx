@@ -44,7 +44,7 @@ function ExcelDataTable({ data, title = "נתונים", countLabel = "שורות
                             />
                           </div>
                         ) : (
-                          <span style={{ color: "#999" }}>--</span>
+                          <span style={{ color: "var(--text-subtle)" }}>--</span>
                         )
                       ) : (
                         cell ?? "-"
@@ -75,7 +75,7 @@ function ExcelDataTable({ data, title = "נתונים", countLabel = "שורות
                           className="table-image-mobile"
                         />
                       ) : (
-                        <span style={{ color: "#999" }}>--</span>
+                        <span style={{ color: "var(--text-subtle)" }}>--</span>
                       )
                     ) : (
                       value ?? "-"

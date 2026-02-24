@@ -5,9 +5,7 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
-  direction: rtl;
 }
 
 .app-container {
@@ -23,8 +21,8 @@ body {
   margin-bottom: 8px;
   padding: 6px 12px;
   background: none;
-  border: 1px solid #667eea;
-  color: #667eea;
+  border: 1px solid var(--primary);
+  color: var(--primary);
   border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
@@ -32,13 +30,13 @@ body {
 }
 
 .btn-back:hover {
-  background: #667eea;
+  background: var(--primary);
   color: #fff;
 }
 
 .btn-logout {
   padding: 10px 20px;
-  background: #ff4757;
+  background: var(--danger-2);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -48,13 +46,13 @@ body {
 }
 
 .btn-logout:hover {
-  background: #ee5a6f;
+  background: var(--danger);
   transform: translateY(-2px);
 }
 
 .spinner {
-  border: 2px solid #e5e7eb;
-  border-top-color: #667eea;
+  border: 2px solid var(--border);
+  border-top-color: var(--primary);
   border-radius: 50%;
   width: 18px;
   height: 18px;

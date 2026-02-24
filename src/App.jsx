@@ -4,22 +4,18 @@ import "./App.css";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5185";
 
-// Auth token for Bearer header (used when cookie isn't sent, e.g. cross-origin dev)
 let authToken = null;
 export function setAuthToken(token) {
   authToken = token;
 }
 
-// Axios defaults: always send credentials (cookies) for API calls
 axios.defaults.withCredentials = true;
 
-// Attach Bearer token to every request when available
 axios.interceptors.request.use((config) => {
   if (authToken) config.headers.Authorization = `Bearer ${authToken}`;
   return config;
 });
 
-// Global 401 handler: clear token and redirect to login when missing or expired
 axios.interceptors.response.use(
   (res) => res,
   (err) => {
@@ -51,7 +47,6 @@ function App() {
     return () => window.removeEventListener("auth:unauthorized", onUnauthorized);
   }, []);
 
-      // Register handler
   const handleRegister = async (email, password) => {
     try {
       await axios.post(`${API}/api/auth/register`, { email, password });
@@ -61,7 +56,6 @@ function App() {
     }
   };
 
-  // Login handler
   const handleLogin = async (email, password) => {
     try {
       const res = await axios.post(`${API}/api/auth/login`, { email, password }, { withCredentials: true });
@@ -75,24 +69,20 @@ function App() {
     }
   };
 
-  // Logout handler – clear token, call backend to clear cookie, then reset state
   const handleLogout = async () => {
     setAuthToken(null);
     try {
       await axios.post(`${API}/api/auth/logout`, {}, { withCredentials: true });
     } catch {
-      // Ignore errors – still clear local state
     }
     setCurrentPage("login");
     setUserEmail("");
   };
 
-  // Navigation handler (home, excel, settings)
   const handleNavigate = (page) => {
     setCurrentPage(page);
   };
 
-  // Export to list – parse Excel via backend (no filter)
   const handleExportToList = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -127,7 +117,6 @@ function App() {
     }
   };
 
-  // Upload handler (filter + download)
   const handleUpload = async (file, column, value) => {
     const formData = new FormData();
     formData.append("File", file);
@@ -140,10 +129,8 @@ function App() {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
-      // Parse JSON data
       const jsonData = JSON.parse(res.data.json);
 
-      // Download Excel
       const link = document.createElement("a");
       link.href = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${res.data.excelBase64}`;
       link.download = "filtered.xlsx";
@@ -159,7 +146,6 @@ function App() {
     }
   };
 
-  // Render current page
   if (currentPage === "login") {
     return (
       <Login 
@@ -210,7 +196,6 @@ function App() {
     );
   }
 
-  // excel
   return (
     <DashboardLayout userEmail={userEmail} onLogout={handleLogout} onNavigate={handleNavigate} activeItem="excel">
       <ExcelImport onUpload={handleUpload} />

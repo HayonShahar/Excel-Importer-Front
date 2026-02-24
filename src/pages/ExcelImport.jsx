@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "../styles/ExcelImport.css";
 import ExcelDataTable from "../components/ExcelDataTable";
 
@@ -9,6 +9,7 @@ function ExcelImport({ onUpload }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [filteredData, setFilteredData] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,18 +24,17 @@ function ExcelImport({ onUpload }) {
     
     if (result.success) {
       setMessage({ type: "success", text: result.message });
-      // Set the filtered data for table display
       result.data.forEach(item => {
         if (item._images && item._images.length > 0) {
-            item.תמונה = item._images[0]; // שים את הערך הראשון של _images במפתח "תמונה"
+            item.תמונה = item._images[0];
         }
-        delete item._images; // מחיקה של _images
+        delete item._images; 
       });
       setFilteredData(result.data);
-      // Reset form
       setFile(null);
       setColumn("");
       setValue("");
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } else {
       setMessage({ type: "error", text: result.message });
       setFilteredData(null);
@@ -42,7 +42,6 @@ function ExcelImport({ onUpload }) {
     
     setLoading(false);
     
-    // Clear message after 5 seconds
     setTimeout(() => setMessage({ type: "", text: "" }), 5000);
   };
 
@@ -66,7 +65,11 @@ function ExcelImport({ onUpload }) {
                   id="file-upload"
                   type="file"
                   accept=".xlsx,.xls"
-                  onChange={e => setFile(e.target.files[0])}
+                  ref={fileInputRef}
+                  onClick={(e) => {
+                    e.currentTarget.value = "";
+                  }}
+                  onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                 />
               </div>
 

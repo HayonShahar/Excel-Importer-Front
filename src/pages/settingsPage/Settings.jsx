@@ -10,17 +10,14 @@ function Settings({ userEmail: initialEmail, onLogout, onNavigate, onProfileUpda
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ text: "", isError: false });
 
-  // Edit email
   const [editingEmail, setEditingEmail] = useState(false);
   const [newEmail, setNewEmail] = useState("");
 
-  // Change password (collapsible)
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Delete account
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
